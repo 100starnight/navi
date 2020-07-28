@@ -9,6 +9,7 @@
 import Component from '@glimmer/component';
 import { computed } from '@ember/object';
 import numeral from 'numeral';
+import { shapeData } from '../../chart-builders/apex';
 
 export default class NaviVisualizationsApexGauge extends Component {
   /**
@@ -53,17 +54,26 @@ export default class NaviVisualizationsApexGauge extends Component {
    */
   @computed('data', 'gaugeColor')
   get chartOptions() {
-    const radialBar = {
-      startAngle: -90,
-      endAngle: 90,
-      hollow: { size: '60%' },
-      dataLabels: {
-        total: { show: true, label: this._formatNumber(this.data) }
-      }
-    };
+    console.log('apexGauge this.data');
+    console.log(this.data);
+    console.log('apexGauge ');
+    console.log(shapeData(this.args.model.firstObject.request, this.args.model.firstObject.response.rows));
     return {
-      plotOptions: { radialBar },
-      colors: [this.gaugeColor]
+      chart: {
+        type: 'radialBar'
+      },
+      series: this.series,
+      colors: [this.gaugeColor],
+      plotOptions: {
+        radialBar: {
+          startAngle: -90,
+          endAngle: 90,
+          hollow: { size: '60%' },
+          dataLabels: {
+            total: { show: true, label: this._formatNumber(this.data) }
+          }
+        }
+      }
     };
   }
 

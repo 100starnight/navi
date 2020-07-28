@@ -10,6 +10,7 @@ import numeral from 'numeral';
 import Component from '@glimmer/component';
 import { computed } from '@ember/object';
 import moment from 'moment';
+import { shapeData } from '../../chart-builders/apex';
 
 export default class NaviVisualizationsApexPie extends Component {
   /**
@@ -17,22 +18,7 @@ export default class NaviVisualizationsApexPie extends Component {
    */
   @computed('model')
   get data() {
-    // build the series objects and fill in metric names
-    let vals = this.args.model.firstObject.request.metrics.map(item => {
-      return { name: item, type: 'line', data: [] };
-    });
-    // fill in the data for each of the metric names
-    let timeLabels = this.args.model.firstObject.response.rows.map(item => {
-      vals.forEach(element => {
-        let num = item[element.name];
-        if (num === undefined) {
-          num = null;
-        }
-        element.data.push(num);
-      });
-      return item.dateTime;
-    });
-    return { vals: vals, labels: timeLabels };
+    return shapeData(this.args.model.firstObject.request, this.args.model.firstObject.response.rows);
   }
 
   /**
@@ -40,7 +26,7 @@ export default class NaviVisualizationsApexPie extends Component {
    */
   @computed('data')
   get series() {
-    return this.data.vals;
+    return this.data.series;
   }
 
   /**

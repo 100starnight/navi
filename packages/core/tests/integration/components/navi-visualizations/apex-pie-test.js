@@ -24,24 +24,15 @@ const Model = A([
       ],
       metrics: [
         {
-          metric: {
-            id: 'totalPageViews',
-            name: 'Total Page Views'
-          }
+          metric: 'totalPageViews'
         },
         {
-          metric: {
-            id: 'uniqueIdentifier',
-            name: 'Unique Identifier'
-          }
+          metric: 'uniqueIdentifier'
         }
       ],
       dimensions: [
         {
-          dimension: {
-            id: 'age',
-            name: 'Age'
-          }
+          dimension: 'age'
         }
       ]
     },
@@ -50,7 +41,7 @@ const Model = A([
         {
           dateTime: '2015-12-14 00:00:00.000',
           'age|id': '-3',
-          'age|description': 'All Other',
+          'age|desc': 'All Other',
           uniqueIdentifier: 155191081,
           totalPageViews: 310382162,
           'revenue(currency=USD)': 200,
@@ -59,7 +50,7 @@ const Model = A([
         {
           dateTime: '2015-12-14 00:00:00.000',
           'age|id': '1',
-          'age|description': 'under 13',
+          'age|desc': 'under 13',
           uniqueIdentifier: 55191081,
           totalPageViews: 2072620639,
           'revenue(currency=USD)': 300,
@@ -68,7 +59,7 @@ const Model = A([
         {
           dateTime: '2015-12-14 00:00:00.000',
           'age|id': '2',
-          'age|description': '13 - 25',
+          'age|desc': '13 - 25',
           uniqueIdentifier: 55191081,
           totalPageViews: 2620639,
           'revenue(currency=USD)': 400,
@@ -77,7 +68,7 @@ const Model = A([
         {
           dateTime: '2015-12-14 00:00:00.000',
           'age|id': '3',
-          'age|description': '25 - 35',
+          'age|desc': '25 - 35',
           uniqueIdentifier: 55191081,
           totalPageViews: 72620639,
           'revenue(currency=USD)': 500,
@@ -86,7 +77,7 @@ const Model = A([
         {
           dateTime: '2015-12-14 00:00:00.000',
           'age|id': '4',
-          'age|description': '35 - 45',
+          'age|desc': '35 - 45',
           uniqueIdentifier: 55191081,
           totalPageViews: 72620639,
           'revenue(currency=USD)': 600,
@@ -141,6 +132,8 @@ module('Integration | Components | Apex-Pie', function(hooks) {
   test('legend of apex-pie chart renders', async function(assert) {
     assert.expect(3);
     await this.render(TEMPLATE);
+    console.log(this.element);
+    debugger;
     assert.dom('.apexcharts-legend-series').exists({ count: expectedInfo.labels.length });
     assert.dom('.apexcharts-legend-text').hasAttribute('data:default-text');
     let legendText = [];

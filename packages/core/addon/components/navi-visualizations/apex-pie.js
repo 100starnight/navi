@@ -8,55 +8,33 @@
  */
 import Component from '@glimmer/component';
 import { computed } from '@ember/object';
-import { inject as service } from '@ember/service';
+import { shapeData } from '../../chart-builders/apex';
 
 export default class NaviVisualizationsApexPie extends Component {
-  @service() bardMetadata;
-
   /**
    * @property {string} - the metric being displayed
    */
-  @computed('options')
+  @computed('args.options')
   get metric() {
     return this.args.options.metadata.series.config.metric.metric;
   }
 
   /**
-   * @property {string} - the category that differentiates the pie slices
-   */
-  @computed('options')
-  get descript() {
-    let val = this.bardMetadata.getById(
-      'dimension',
-      this.args.options.metadata.series.config.dimensionOrder[0],
-      this.args.model.firstObject.request.dataSource
-    );
-    val = val.id + '|' + val.descriptionTag;
-    return val;
-  }
-
-  /**
    * @property {object} - an ApexCharts-friendly object of the data and data labels
    */
-  @computed('model')
+  @computed('args.model')
   get data() {
-    const vals = { series: [], labels: [] };
-    const location = this.args.model.firstObject.response.rows;
-    for (let row = 0; row < location.length; row++) {
-      vals.series.push(location[row][this.metric]);
-      vals.labels.push(location[row][this.descript]);
-    }
-    return vals;
+    return shapeData(this.args.model.firstObject.request, this.args.model.firstObject.response.rows);
   }
 
   /**
    * @property {object} - ApexCharts-compatible object of options
    */
-  @computed('series', 'labels')
+  @computed('data', 'metric')
   get chartOptions() {
     return {
       chart: { type: 'pie' },
-      series: this.data.series,
+      series: this.data.series.find(dataSet => dataSet.name === this.metric).data,
       labels: this.data.labels
     };
   }
