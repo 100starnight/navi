@@ -5,10 +5,10 @@ import hbs from 'htmlbars-inline-precompile';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
 const TEMPLATE = hbs`
-    {{navi-visualizations/apex-pie
-        model=model
-        options=options
-    }}`;
+<NaviVisualizations::ApexPie
+  @model={{this.model}}
+  @options={{this.options}}
+/>`;
 
 const Model = A([
   {
@@ -132,8 +132,6 @@ module('Integration | Components | Apex-Pie', function(hooks) {
   test('legend of apex-pie chart renders', async function(assert) {
     assert.expect(3);
     await this.render(TEMPLATE);
-    console.log(this.element);
-    debugger;
     assert.dom('.apexcharts-legend-series').exists({ count: expectedInfo.labels.length });
     assert.dom('.apexcharts-legend-text').hasAttribute('data:default-text');
     let legendText = [];

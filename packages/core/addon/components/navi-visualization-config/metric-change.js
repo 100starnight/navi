@@ -2,13 +2,13 @@
  * Copyright 2020, Yahoo Holdings Inc.
  * Licensed under the terms of the MIT license. See accompanying LICENSE.md file for terms.
  *
- * {{navi-visualization-config/series-chart
- *    request=request
- *    response=response
- *    seriesConfig=seriesConfig
- *    seriesType=seriesType
- *    onUpdateConfig=(action "onUpdateConfig")
- * }}
+ * <NaviVisualizationConfig::MetricChange
+ *   @request={{@request}}
+ *   @response={{@response}}
+ *   @seriesConfig={{readonly @options.series.config}}
+ *   @seriesType={{readonly @options.series.type}}
+ *   @onUpdateConfig={{this.onUpdateSeriesConfig}}
+ * />
  */
 
 import Component from '@glimmer/component';
